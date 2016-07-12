@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>nicola-AD-2016</title>
+
+    <meta name="description" content="FHIR">
+    <meta name="author" content="Nikolay Ryzhikov">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css"/>
+    <link rel="stylesheet" href="css/theme/white.css" id="theme"/>
+
+
+
+    <!-- <link rel="stylesheet" href="lib/css/zenburn.css"> -->
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+
+    <!-- Printing and PDF exports -->
+    <script>
+     var link = document.createElement( 'link' );
+     link.rel = 'stylesheet';
+     link.type = 'text/css';
+     link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+     document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]><script src="lib/js/html5shiv.js"></script><![endif]-->
+    <style>
+     @font-face {
+         font-family: fontello;
+         src: url('font/fontello.woff') format('woff'), url('font/fontello.eot') format('embedded-opentype'),url('font/fontello.woff') format('woff'),url('font/fontello.svg') format('svg'),url('font/fontello.ttf') format('truetype');
+
+     }
+
+     body .hs-icon {
+         font-family: fontello;
+         text-transform: none;
+         -webkit-font-smoothing: antialiased;
+         text-align: center;
+         speak: none;
+         font-weight: normal;
+         text-decoration: inherit;
+         display: inline-block;
+         font-style: normal;
+         font-variant: normal;
+         -moz-osx-font-smoothing: grayscale;
+
+     }
+
+     body .hs-icon.icon-mapper:before {
+         content: '\e800';
+
+     }
+
+     body .hs-icon.icon-foodtaster:before {
+         content: '\e801';
+
+     }
+
+     body .hs-icon.icon-aidbox:before {
+         content: '\e806';
+
+     }
+
+     body .hs-icon.icon-fhirbase:before {
+         content: '\e802';
+
+     }
+
+     body .hs-icon.icon-formstamp:before {
+         content: '\e803';
+
+     }
+
+     body .hs-icon.icon-choice:before {
+         content: '\e804';
+
+     }
+
+     body .hs-icon.icon-samurai:before {
+         content: '\e805';
+
+     }
+
+    .reveal pre code {
+        background: black;
+        overflow: hidden;
+        max-height: 500px;
+        padding: 20px;
+    }
+
+     .reveal section img {
+         border: none;
+         box-shadow: none;
+     }
+     .slidernav img{
+         width: 80px;
+         display: inline-block;
+         margin: 10px;
+     }
+     h3 strong {
+         color: #DC322F;
+     }
+
+     .red {
+         color: #DC322F !important;
+     }
+
+     .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+         color: #002B36;
+     }
+
+     .reveal blockquote {
+         background: #FDF6E3;
+     }
+    </style>
+  </head>
+
+  <body>
+    <i style="position: absolute; left: 20px; top: 20px; color: #2D5795;" class="hs-icon icon-samurai"></i>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <h3>hipsterdb</h3>
+          <b>by @niquola</b>
+        </section>
+
+        <section style="top: 0px; display: block;" class="present">
+          <h3 style="font-size: 50px">
+            Рыжиков Николай
+          </h3>
+          <a href="http://health-samurai.io" style="font-size: 30px; color: #666;">Health Samurai, CTO</a>
+          <br/>
+          <img src="niquola.jpg" style="border:none; width: 400px; box-shado: none; background: transparent;">
+          <p style="letter-spacing: 32px;">
+            <a href="http://github.com/niquola">
+              <i class="fa fa-github"></i>
+            </a>
+            <a href="http://twitter.com/niquola">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="https://plus.google.com/u/0/+%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%D0%A0%D1%8B%D0%B6%D0%B8%D0%BA%D0%BE%D0%B2">
+              <i class="fa fa-google-plus"></i>
+            </a>
+            <a href="https://www.facebook.com/nicola.ryzhikov">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </p>
+        </section>
+
+        <section>
+          <h3>PostgreSQL</h3>
+          <p>Hackers DataBase</p>
+        </section>
+
+        <section>
+          <h3>Like linux</h3>
+          <hr/>
+          <h4>we need Ubuntu</h4>
+        </section>
+
+        <section>
+          <h3>3 projects</h3>
+          <hr/>
+          <ul>
+            <li>REST API for postgres</li>
+            <li>Post-industrial UI</li>
+            <li>HA Postgres Cluster</li>
+          </ul>
+          <hr/>
+          <h3>= hipsterdb</h3>
+        </section>
+
+        <section>
+          <h3>Cluster</h3>
+          <pre><code class="bash">
+hipsterdb new cluster --config cluster.edn
+> master node running on X.X.X.X:8650
+
+hipsterdb new node --join X.X.X.X:8650
+> take base backup
+> setup streaming replication
+> replica node running on X.X.X.Y:8650
+
+hipsterdb new node --join X.X.X.X:8650, X.X.X.Y:8650
+
+curl localhost:8650/status
+> master  | X.X.X.X:8650
+> replica | X.X.X.Y:8650
+> replica | X.X.X.Z:8650
+
+kill node-1
+
+curl localhost:8650/status
+> master  | X.X.X.Y:8650
+> replica | X.X.X.Z:8650
+> lost    | X.X.X.X:8650
+          </code></pre>
+          <br/>
+        </section>
+
+        <section>
+          <h3>Project</h3>
+          <hr/>
+          <ul>
+            <li>repmgr</li>
+            <li>zalando/patroni</li>
+            <li>pgpool-II</li>
+            <li>handmade</li>
+          </ul>
+          <hr/>
+          <h3>No automatic failover</h3>
+        </section>
+
+        <section>
+          <h3>Cluster Agent</h3>
+          <hr/>
+          <ul>
+            <li>connected to cluster</li>
+            <li>supervises pg</li>
+            <li>manages configs</li>
+            <li>monitoring & alerting</li>
+            <li>REST API to cluster</li>
+            <li>cloud aware/frendly</li>
+          </ul>
+          <hr/>
+          <h3>80/20</h3>
+        </section>
+
+        <section>
+          <h3>Cluster consensus</h3>
+          <hr/>
+          <h4>Paxos, <a href="https://raft.github.io/">Raft</a> algorythms</h4>
+          <hr/>
+          <p>Zookeeper,Consul & ETCD</p>
+        </section>
+
+        <section>
+          <h3>Distributed DBs</h3>
+          <hr/>
+          <ul>
+            <li>Zookeeper</li>
+            <li>Consul</li>
+            <li>ETCD</li>
+          </ul>
+        </section>
+        <section>
+          <h3>atomix.io</h3>
+          <p>An open source software stack for distributed systems infrastructure</p>
+          <hr/>
+          <ul>
+          <li>Distributed variables</li>
+          <li>Distributed collections such as maps, multi-maps, sets, and queues</li>
+          <li>Distributed groups tools such as group membership, leader election, messaging and more</li>
+          <li>Distributed concurrency tools such as locks</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h3>atomix.io</h3>
+          <hr/>
+          <pre><code class="bash">
+AtomixReplica replica = AtomixReplica
+  .builder(new Address("localhost", 8700))
+  .withStorage(storage)
+  .withTransport(transport)
+  .build();
+
+replica.join(new Address("localhost", 8700)).join();
+
+DistributedLock lock = replica.getLock("my-lock").join();
+lock.lock().thenRun(() -> System.out.println("Acquired a lock!"));
+
+          </pre></code>
+        </section>
+
+        <section>
+          <h3>failover (Master Alive)</h3>
+          <hr/>
+          <pre><code class="bash">MASTER:
+  if it's_me?
+    renew master_dvar, ttl; goto 0
+  else
+    if history_spawn?
+      stop pg; exit cluster; notify
+    else
+      rewind to new master
+REPLICA:
+  if my_master?
+    goto 0
+  else
+    rewind to new master
+NEWBIE:
+  follow master
+          </pre></code>
+        </section>
+
+        <section>
+          <h3>failover (Mater Dead)</h3>
+          <hr/>
+          <pre><code class="bash">MASTER:
+  if got_lock?
+    set master_dvar to me; release_lock; goto 0
+  else
+    goto 0
+REPLICA:
+  if old_master_alive?
+    notify inconsistency or kill it; goto 0
+  else
+    if i_am_latest?
+      if got_lock?
+        promote; set master_dvar to me; release lock
+      else
+        goto 0
+    else
+      goto 0
+NEW: goto 0
+          </pre></code>
+        </section>
+
+        <section>
+          <h3>REST API & Discovery</h3>
+          <hr/>
+          <ul>
+            <li>Cluster status</li>
+            <li>Master discovery</li>
+            <li>Failover watch</li>
+            <li>Management</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Configuration management</h3>
+          <hr/>
+          <ul>
+            <li>Good & live defaults</li>
+            <li>Recomendations</li>
+            <li>Versioning & rollback</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>REST API for postgresql</h3>
+          <hr/>
+          <h4> Nobackend (Generic backend)<br/> for data driven app</h4>
+        </section>
+
+        <section>
+          <ul>
+            <li>PostgREST</li>
+            <li>Postgraphql</li>
+            <li>OpenResty (nginx)</li>
+            <li>C2H50H</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Schema is your API (PostgREST)</h4>
+          <pre><code class="bash">
+hipsterdb new cluster --config cluster.edn
+
+CREATE TABLE people (.....);
+
+GET /people?age=gte.18&student=is.true
+
+GET /clients?id=eq.42&select=id, name, projects{*}
+
+POST /people
+[
+  { "name": "J Doe", "age": 62, "height": 70 },
+  { "name": "Janus", "age": 10, "height": 55 }
+] 
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h4>Swagger & JSON schema</h4>
+          <pre><code class="bash">swagger: "2.0"
+host: "petstore.swagger.io"
+basePath: "/api"
+paths:
+  /pets:
+    get:
+      description: "Returns all pets from the system that the user has access to"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "A list of pets."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Pet"
+definitions:
+  Pet:
+    type: "object"
+    required:
+      - "id"
+      - "name"
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Demo Swagger UI</h3>
+        </section>
+
+
+<section>
+  <h3>GraphQL</h3>
+  <pre><code class="bash">
+
+type Human {
+  id: String
+  name: String
+  appearsIn: [Episode]
+  homePlanet: String
+}
+
+query NestedQuery {
+  hero {
+    name
+    friends {
+        name
+        appearsIn
+        friends {  name }
+    }
+  }
+}
+  </code></pre>
+</section>
+
+<section>
+  <h3>Postgraphql</h3>
+  <pre><code class="bash">
+
+create table post (
+  id serial primary key,
+  author_id int non null references user(id),
+  headline text,
+  body text,
+  …
+);
+
+{
+  postNodes {
+    nodes {
+      headline
+      body
+      author: userByAuthorId { name}
+    }
+  }
+}
+
+  </code></pre>
+</section>
+
+        <section>
+          <h4>Data driven queries</h4>
+          <pre><code class="bash">
+{:select [:f.* :b.baz :c.quux [:b.bla "bla-bla"]
+             (sql/call :now) (sql/raw "@x := 10")]
+:modifiers [:distinct]
+:from [[:foo :f] [:baz :b]]
+:join [:draq [:= :f.b :draq.x]]
+:where [:or [:in :f.e [1 (sql/param :param2) 3]]
+            [:between :f.e 10 20]]
+:group-by [:f.a]
+:having [:< 0 :f.e]
+:order-by [[:b.baz :desc] :c.quux [:f.a :nulls-first]
+:limit 50
+:offset 10}
+          </code></pre>
+          <h5>HoneySQL</h5>
+        </section>
+
+        <section>
+          <h3>Security</h3>
+          <ul>
+            <li>Reuse postgresql security</li>
+            <li>SET ROLE in connection</li>
+            <li>OAUTH 2.0</li>
+            <li>JWT</li>
+            <li>Row Security Policies!!!</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Row Security Policies</h3>
+          <pre><code class="bash">
+CREATE TABLE accounts
+  (manager text, company text, contact_email text);
+
+ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY account_managers ON accounts TO managers
+    USING (manager = current_user);
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Post-industrial UI</h3>
+        </section>
+
+        <section>
+          <ul>
+            <li>Web</li>
+            <li>Educatable</li>
+            <li>Hackable</li>
+            <li>Vizualizable</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Educatable</h3>
+          <ul>
+            <li>embeded docs</li>
+            <li>interactive docs</li>
+            <li>education mode</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Visualize</h3>
+          <p>from schema to data</p>
+          <ul>
+            <li>d3 world integration</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Hackable</h3>
+          <ul>
+            <li>visualizers</li>
+            <li>advisers/analyzers</li>
+            <li>monitorings</li>
+            <li>plv8 integration</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Demo</h3>
+        </section>
+
+        <section>
+          <h2> $&gt; hipsterdb start </h2>
+        </section>
+
+
+        <section>
+          <h1>Thank you</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+     // Full list of configuration options available at:
+     // https://github.com/hakimel/reveal.js#configuration
+     Reveal.initialize({
+         controls: true,
+         progress: true,
+         history: true,
+         center: true,
+
+         transition: 'concave', // none/fade/slide/convex/concave/zoom
+
+         // Optional reveal.js plugins
+         dependencies: [
+             { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+             { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+             { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+             { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+             { src: 'plugin/highlight/highlight.pack.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+             { src: 'plugin/zoom-js/zoom.js', async: true },
+             { src: 'plugin/notes/notes.js', async: true }
+         ]
+     });
+    </script>
+  </body>
+</html>
